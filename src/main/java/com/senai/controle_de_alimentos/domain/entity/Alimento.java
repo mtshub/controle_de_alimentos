@@ -22,7 +22,6 @@ public class Alimento {
 
     private Integer codigoDeBarras;
     private String nomeAlimento;
-    private int qtdEstoque;
     private float preco;
     private LocalDate dataFabricacao;
     private LocalDate dataValidade;

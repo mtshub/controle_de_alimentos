@@ -8,7 +8,6 @@ public record AlimentoDTO(
         Long id,
         Integer codigoDeBarras,
         String nomeAlimento,
-        int qtdEstoque,
         float preco,
         LocalDate dataFabricacao,
         LocalDate dataValidade
@@ -18,7 +17,6 @@ public record AlimentoDTO(
                 alimento.getId(),
                 alimento.getCodigoDeBarras(),
                 alimento.getNomeAlimento(),
-                alimento.getQtdEstoque(),
                 alimento.getPreco(),
                 alimento.getDataFabricacao(),
                 alimento.getDataValidade()
@@ -30,7 +28,6 @@ public record AlimentoDTO(
                 id,
                 codigoDeBarras,
                 nomeAlimento,
-                qtdEstoque,
                 preco,
                 dataFabricacao,
                 dataValidade,

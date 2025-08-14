@@ -16,13 +16,19 @@ public class AlimentoService {
     @Autowired
     private AlimentoRepository alimentoRepo;
 
+    @Autowired
     private AlimentoServiceDomain alimentoService;
 
+    public boolean cadastrarAlimento(AlimentoDTO dto){
 
-    public void cadastrarAlimento(AlimentoDTO dto){
-        if(!alimentoService.testarCodigoBarras(dto)) {
+        boolean codigoBarrasValido = !alimentoService.testarCodigoBarras(dto);
+        boolean dataValidadeValida = alimentoService.dataValidadeValida(dto);
+
+        if(codigoBarrasValido && dataValidadeValida) {
             alimentoRepo.save(dto.fromDTO());
+            return true;
         }
+        return false;
     }
 
     public List<AlimentoDTO> listarAlimentos() {
@@ -35,7 +41,7 @@ public class AlimentoService {
     }
 
     public boolean atualizarAlimento(Long id, AlimentoDTO dto) {
-        return alimentoRepo.findById(id).map(alimento -> {
+        return alimentoRepo.findById(id).filter(Alimento::isStatus).map(alimento -> {
             atualizarInfos(alimento, dto);
             alimentoRepo.save(alimento);
             return true;
@@ -53,6 +59,5 @@ public class AlimentoService {
     public void atualizarInfos(Alimento alimento, AlimentoDTO dto) {
         alimento.setNomeAlimento(dto.nomeAlimento());
         alimento.setPreco(dto.preco());
-        alimento.setQtdEstoque(dto.qtdEstoque());
     }
 }
