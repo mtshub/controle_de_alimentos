@@ -22,7 +22,7 @@ public class Alimento {
 
     private Integer codigoDeBarras;
     private String nomeAlimento;
-    private float preco;
+    private double preco;
     private LocalDate dataFabricacao;
     private LocalDate dataValidade;
     private boolean status;

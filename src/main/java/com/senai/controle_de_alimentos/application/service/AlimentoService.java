@@ -19,12 +19,12 @@ public class AlimentoService {
     @Autowired
     private AlimentoServiceDomain alimentoService;
 
-    public boolean cadastrarAlimento(AlimentoDTO dto){
+    public boolean cadastrarAlimento(AlimentoDTO dto) {
 
         boolean codigoBarrasValido = !alimentoService.testarCodigoBarras(dto);
         boolean dataValidadeValida = alimentoService.dataValidadeValida(dto);
 
-        if(codigoBarrasValido && dataValidadeValida) {
+        if (codigoBarrasValido && dataValidadeValida) {
             alimentoRepo.save(dto.fromDTO());
             return true;
         }

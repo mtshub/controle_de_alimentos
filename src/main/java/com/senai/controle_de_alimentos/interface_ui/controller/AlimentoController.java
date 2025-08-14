@@ -16,7 +16,7 @@ public class AlimentoController {
 
     @PostMapping
     public ResponseEntity<Void> cadastrarAlimento(@RequestBody AlimentoDTO dto) {
-        if(alimentoService.cadastrarAlimento(dto)) {
+        if (alimentoService.cadastrarAlimento(dto)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
@@ -34,7 +34,7 @@ public class AlimentoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> atualizarAlimento(@PathVariable Long id, @RequestBody AlimentoDTO dto) {
-        if(alimentoService.atualizarAlimento(id, dto)) {
+        if (alimentoService.atualizarAlimento(id, dto)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
@@ -42,7 +42,7 @@ public class AlimentoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarAlimento(@PathVariable Long id) {
-        if(alimentoService.deletarAlimento(id)) {
+        if (alimentoService.deletarAlimento(id)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
