@@ -2,6 +2,7 @@ package com.senai.controle_de_alimentos.application.service;
 
 import com.senai.controle_de_alimentos.application.dto.AlimentoDTO;
 import com.senai.controle_de_alimentos.domain.entity.Alimento;
+import com.senai.controle_de_alimentos.domain.exception.ValidacaoDeDadosException;
 import com.senai.controle_de_alimentos.domain.repository.AlimentoRepository;
 import com.senai.controle_de_alimentos.domain.service.AlimentoServiceDomain;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,7 @@ public class AlimentoService {
     private AlimentoServiceDomain alimentoService;
 
     public boolean cadastrarAlimento(AlimentoDTO dto) {
-
-        boolean codigoBarrasValido = !alimentoService.testarCodigoBarras(dto);
-        boolean dataValidadeValida = alimentoService.dataValidadeValida(dto);
-
-        if (codigoBarrasValido && dataValidadeValida) {
+        if (validarDados(dto)) {
             alimentoRepo.save(dto.fromDTO());
             return true;
         }
@@ -59,5 +56,18 @@ public class AlimentoService {
     public void atualizarInfos(Alimento alimento, AlimentoDTO dto) {
         alimento.setNomeAlimento(dto.nomeAlimento());
         alimento.setPreco(dto.preco());
+    }
+
+    public boolean validarDados(AlimentoDTO dto) {
+        boolean codigoBarrasValido = !alimentoService.testarCodigoBarras(dto);
+        if (!codigoBarrasValido) {
+            throw new ValidacaoDeDadosException("Código de barras já cadastrado em outro produto.");
+        }
+
+        boolean dataValidadeValida = alimentoService.dataValidadeValida(dto);
+        if (!dataValidadeValida) {
+            throw new ValidacaoDeDadosException("Data de validade deve ser em um dia futuro.");
+        }
+        return true;
     }
 }

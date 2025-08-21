@@ -15,8 +15,7 @@ public class AlimentoServiceDomain {
     private AlimentoRepository alimentoRepo;
 
     public boolean testarCodigoBarras(AlimentoDTO dto) {
-        return
-                alimentoRepo.findByCodigoDeBarras(dto.codigoDeBarras()).isPresent();
+        return alimentoRepo.findByCodigoDeBarras(dto.codigoDeBarras()).isPresent();
     }
 
     public boolean dataValidadeValida(AlimentoDTO dto) {
