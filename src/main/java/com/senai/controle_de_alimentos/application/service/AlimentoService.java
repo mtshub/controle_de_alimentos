@@ -20,12 +20,11 @@ public class AlimentoService {
     @Autowired
     private AlimentoServiceDomain alimentoService;
 
-    public boolean cadastrarAlimento(AlimentoDTO dto) {
+    public Alimento cadastrarAlimento(AlimentoDTO dto) {
         if (validarDados(dto)) {
-            alimentoRepo.save(dto.fromDTO());
-            return true;
+            return alimentoRepo.save(dto.fromDTO());
         }
-        return false;
+        return null;
     }
 
     public List<AlimentoDTO> listarAlimentos() {

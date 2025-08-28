@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -45,10 +46,8 @@ public class AlimentoController {
     )
     @PostMapping
     public ResponseEntity<Void> cadastrarAlimento(@Valid @org.springframework.web.bind.annotation.RequestBody AlimentoDTO dto) {
-        if (alimentoService.cadastrarAlimento(dto)) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
+        alimentoService.cadastrarAlimento(dto);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(

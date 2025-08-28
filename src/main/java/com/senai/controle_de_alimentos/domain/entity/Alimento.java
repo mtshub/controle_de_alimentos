@@ -19,7 +19,6 @@ public class Alimento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Integer codigoDeBarras;
     private String nomeAlimento;
     private double preco;
