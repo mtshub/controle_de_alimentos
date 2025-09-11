@@ -4,6 +4,7 @@ import com.senai.controle_de_alimentos.application.dto.AlimentoDTO;
 import com.senai.controle_de_alimentos.application.service.AlimentoService;
 import com.senai.controle_de_alimentos.domain.entity.Alimento;
 import com.senai.controle_de_alimentos.domain.repository.AlimentoRepository;
+import com.senai.controle_de_alimentos.domain.service.AlimentoServiceDomain;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,6 +23,9 @@ class ControleDeAlimentosApplicationTests {
     @Mock
     private AlimentoRepository repository;
 
+    @Mock
+    private AlimentoServiceDomain alimentoServiceDomain;
+
     @InjectMocks
     private AlimentoService service;
 
@@ -39,6 +43,9 @@ class ControleDeAlimentosApplicationTests {
                 LocalDate.now().minusDays(15),
                 LocalDate.now().plusDays(15)
         );
+
+        when(alimentoServiceDomain.testarCodigoBarras(alimento)).thenReturn(false);
+        when(alimentoServiceDomain.dataValidadeValida(alimento)).thenReturn(true);
 
         when(repository.save(alimento.fromDTO())).thenReturn(alimento.fromDTO());
 
