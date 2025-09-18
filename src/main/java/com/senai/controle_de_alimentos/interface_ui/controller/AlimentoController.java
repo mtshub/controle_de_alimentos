@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/alimentos")
@@ -57,7 +58,7 @@ public class AlimentoController {
             }
     )
     @PostMapping
-    public ResponseEntity<AlimentoDTO> cadastrarAlimento(@Valid @org.springframework.web.bind.annotation.RequestBody AlimentoDTO dto) {
+    public ResponseEntity<AlimentoDTO> cadastrarAlimento(@org.springframework.web.bind.annotation.RequestBody AlimentoDTO dto) {
         return ResponseEntity.status(201).body(AlimentoDTO.toDTO(alimentoService.cadastrarAlimento(dto)));
     }
 
@@ -85,8 +86,8 @@ public class AlimentoController {
                             responseCode = "404",
                             description = "Alimento não encontrado",
                             content = @Content(
-                                mediaType = "application/json",
-                                examples = @ExampleObject(value = "Alimento com o id fornecido não encontrado")
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "Alimento com o id fornecido não encontrado")
                             )
                     )
             }
@@ -119,18 +120,19 @@ public class AlimentoController {
                     @ApiResponse(
                             responseCode = "404",
                             description = "Alimento não encontrado.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(value = "Alimento com o ID fornecido não encontrado.")
-                    ))
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = @ExampleObject(value = "Alimento com o ID fornecido não encontrado.")
+                            ))
             }
     )
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizarAlimento(@PathVariable Long id, @org.springframework.web.bind.annotation.RequestBody AlimentoDTO dto) {
-        if (alimentoService.atualizarAlimento(id, dto)) {
-            return ResponseEntity.ok().build();
+    public ResponseEntity<AlimentoDTO> atualizarAlimento(@PathVariable Long id, @org.springframework.web.bind.annotation.RequestBody AlimentoDTO dto) {
+        Optional<Alimento> alimentoOpt = alimentoService.atualizarAlimento(id, dto);
+        if (alimentoOpt.isPresent()) {
+            return ResponseEntity.ok().body(AlimentoDTO.toDTO(alimentoOpt.get()));
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.badRequest().build();
     }
 
     @Operation(
@@ -153,7 +155,9 @@ public class AlimentoController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarAlimento(@PathVariable Long id) {
-        alimentoService.deletarAlimento(id);
-        return ResponseEntity.noContent().build();
+        if (alimentoService.deletarAlimento(id).isPresent()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

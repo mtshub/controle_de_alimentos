@@ -35,20 +35,23 @@ public class AlimentoService {
         return alimentoRepo.findById(id).filter(Alimento::isStatus).map(AlimentoDTO::toDTO);
     }
 
-    public boolean atualizarAlimento(Long id, AlimentoDTO dto) {
+    public Optional<Alimento> atualizarAlimento(Long id, AlimentoDTO dto) {
         return alimentoRepo.findById(id).filter(Alimento::isStatus).map(alimento -> {
             atualizarInfos(alimento, dto);
             alimentoRepo.save(alimento);
-            return true;
-        }).orElse(false);
+            return Optional.of(alimento);
+        }).orElse(Optional.empty());
     }
 
-    public boolean deletarAlimento(Long id) {
-        return alimentoRepo.findById(id).map(alimento -> {
+    public Optional<Alimento> deletarAlimento(Long id) {
+        Optional<Alimento> alimentoOpt = alimentoRepo.findById(id);
+        if(alimentoOpt.isPresent()) {
+            Alimento alimento = alimentoOpt.get();
             alimento.setStatus(false);
             alimentoRepo.save(alimento);
-            return true;
-        }).orElse(false);
+            return Optional.of(alimento);
+        }
+        return Optional.empty();
     }
 
     public void atualizarInfos(Alimento alimento, AlimentoDTO dto) {
