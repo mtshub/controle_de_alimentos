@@ -27,8 +27,10 @@ public class AlimentoService {
     }
 
     public List<AlimentoDTO> listarAlimentos() {
-        return alimentoRepo.findAllByStatusTrue().stream()
-                .map(AlimentoDTO::toDTO).collect(Collectors.toList());
+        List<Alimento> alimentos = alimentoRepo.findAllByStatusTrue();
+        return alimentos.stream()
+                .map(AlimentoDTO::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Optional<AlimentoDTO> buscarPorId(Long id) {
