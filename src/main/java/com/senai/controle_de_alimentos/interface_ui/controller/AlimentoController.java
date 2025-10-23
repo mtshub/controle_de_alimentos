@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/alimentos")
+@CrossOrigin("*")
 public class AlimentoController {
     @Autowired
     AlimentoService alimentoService;
